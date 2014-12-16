@@ -1,6 +1,7 @@
-package echoServer
+package main
 
 import (
+	"github.com/meros//go-tcplistener"
 	"fmt"
 	"net"
 )
@@ -26,4 +27,22 @@ func Serve(conn net.Conn) {
 
 		conn.Write(buffer[0 : n-1])
 	}
+}
+
+func handleClients(connChan <-chan net.Conn) {
+	var tcpConn net.Conn
+	for {
+		tcpConn = <-connChan
+
+		fmt.Println("Accepted new client: ", tcpConn.RemoteAddr().String())
+
+		go Serve(tcpConn)
+	}
+}
+
+func main() {
+	connChan := make(chan net.Conn)
+	go handleClients(connChan)
+
+	tcpListener.Accept(8080, connChan)
 }
