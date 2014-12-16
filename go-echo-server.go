@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/meros//go-tcplistener"
+	"github.com/meros/go-tcplistener"
 	"fmt"
 	"net"
 )
@@ -44,5 +44,5 @@ func main() {
 	connChan := make(chan net.Conn)
 	go handleClients(connChan)
 
-	tcpListener.Accept(8080, connChan)
+	tcplistener.Accept(8080, connChan)
 }
